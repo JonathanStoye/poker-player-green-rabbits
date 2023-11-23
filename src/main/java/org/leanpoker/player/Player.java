@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public class Player {
     private final int bet;
-    static final String VERSION = "v8 equal ranks";
+    static final String VERSION = "v9 - play even with bad cards";
 
     public Player(int bet) {
         this.bet = bet;
@@ -12,6 +12,7 @@ public class Player {
 
 
     public static int betRequest(JsonNode request) {
+        Player we = null;
         AllCards allCards = new AllCards();
 
         System.out.println("request");
@@ -24,9 +25,10 @@ public class Player {
 
         JsonNode players = request.get("players");
 
-        players.forEach(player -> {
+        // iterate the players and find our player
+        for (JsonNode player : players) {
             if ("Green Rabbits".equals(player.get("name").asText())) {
-                new Player(player.get("bet").asInt());
+                we = new Player(player.get("bet").asInt());
 
                 player.get("hole_cards").forEach(card -> {
                     allCards.addMyCard(
@@ -35,9 +37,7 @@ public class Player {
                                     Suit.getSuit(card.get("suit").asText())));
                 });
             }
-        });
-
-
+        }
 
         request.get("community_cards").forEach(card -> {
             allCards.addCommunityCard(
@@ -46,6 +46,9 @@ public class Player {
                             Suit.getSuit(card.get("suit").asText()))
             );
         });
+
+        int mimimumRaise = request.get("minimum_raise").asInt();
+        int current_buy_in = request.get("current_buy_in").asInt();
 
         if (allCards.hasEqualCardsWithMinWeightAndMinNumber(1, 4)) {
             return 1000;
@@ -56,7 +59,7 @@ public class Player {
         if (allCards.hasEqualCardsWithMinWeightAndMinNumber(10, 2)) {
             return 100;
         } else {
-            return 0;
+            return current_buy_in - we.bet;
         }
     }
 
