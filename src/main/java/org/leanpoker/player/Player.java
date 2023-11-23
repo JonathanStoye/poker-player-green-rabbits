@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public class Player {
     private final int bet;
-    static final String VERSION = "v10 - fold if not good cards";
+    static final String VERSION = "v11";
 
     public Player(int bet) {
         this.bet = bet;
@@ -59,7 +59,7 @@ public class Player {
         }
 
         if (allCards.hasEqualCardsWithMinWeightAndMinNumber(10, 2)) {
-            return 100;
+            return currentBuyIn - we.bet + mimimumRaise;
         }
 
         if (currentBuyIn < 10){

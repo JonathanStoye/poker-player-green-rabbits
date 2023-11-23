@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.leanpoker.player.Rank.*;
-import static org.leanpoker.player.Suit.DIAMONDS;
-import static org.leanpoker.player.Suit.HEARTS;
+import static org.leanpoker.player.Suit.*;
 
 class AllCardsTest {
 
@@ -26,11 +25,27 @@ class AllCardsTest {
     @Test
     void shouldUC1() {
         AllCards allCards = new AllCards();
-
         allCards.addMyCard(new Card(QUEEN, HEARTS));
         allCards.addMyCard(new Card(QUEEN, DIAMONDS));
 
         assertEquals(true, allCards.hasEqualCardsWithMinWeightAndMinNumber(10, 2));
 
+    }
+
+    @Test
+    void shouldBeFold() {
+        AllCards allCards = new AllCards();
+        allCards.addCommunityCard(new Card(QUEEN, HEARTS));
+        allCards.addCommunityCard(new Card(QUEEN, DIAMONDS));
+        allCards.addCommunityCard(new Card(QUEEN, SPADES));
+
+        assertEquals(true, allCards.isFold());
+    }
+
+    @Test
+    void shouldBeWithoutCommunityCards() {
+        AllCards allCards = new AllCards();
+
+        assertEquals(true, allCards.isWithoutCommunityCards());
     }
 }

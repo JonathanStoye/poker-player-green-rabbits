@@ -67,4 +67,20 @@ public class AllCards {
 
         return rankMap.values().stream().anyMatch(value -> value >= number);
     }
+
+    public boolean isFold() {
+        return communityCards.size() == 3;
+    }
+
+    public boolean isTurn() {
+        return communityCards.size() == 4;
+    }
+
+    public boolean isRiver() {
+        return communityCards.size() == 5;
+    }
+
+    public boolean isWithoutCommunityCards() {
+        return communityCards.size() < 3;
+    }
 }
