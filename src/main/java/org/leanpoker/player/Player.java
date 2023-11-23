@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
-    static final String VERSION = "5 - our cards";
+    static final String VERSION = "v6 our cards as type";
 
     private List<Card> mycards = new ArrayList<>();
 
@@ -35,11 +35,12 @@ public class Player {
         players.forEach(player -> {
             if ("Green Rabbits".equals(player.get("name").asText())) {
                 player.get("hole_cards").forEach(card -> {
-                    we.mycards.add(new Card(card.get("rank").asText(), card.get("suit").asText()));
+                    we.mycards.add(
+                            new Card(Rank.getRank(card.get("rank").asText()),
+                                    card.get("suit").asText()));
                 });
+                System.out.println("found us: " + we);
             }
-
-            System.out.println("found us: " + we);
         });
 
         return 1000;
