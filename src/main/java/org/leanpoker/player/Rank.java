@@ -35,4 +35,8 @@ public enum Rank {
         System.out.println("Rank not found: " + rank);
         return N_2;
     }
+
+    public int getWeight() {
+        return weight;
+    }
 }

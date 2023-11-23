@@ -2,25 +2,17 @@ package org.leanpoker.player;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Player {
-    static final String VERSION = "v6 our cards as type";
+    private final int bet;
+    static final String VERSION = "v8 equal ranks";
 
-    private List<Card> mycards = new ArrayList<>();
-
-    @Override
-    public String toString() {
-        return "Player{" +
-                "mycards=" + mycards +
-                '}';
+    public Player(int bet) {
+        this.bet = bet;
     }
 
 
     public static int betRequest(JsonNode request) {
-
-        Player we = new Player();
+        AllCards allCards = new AllCards();
 
         System.out.println("request");
         System.out.println(request.toPrettyString());
@@ -34,16 +26,38 @@ public class Player {
 
         players.forEach(player -> {
             if ("Green Rabbits".equals(player.get("name").asText())) {
+                new Player(player.get("bet").asInt());
+
                 player.get("hole_cards").forEach(card -> {
-                    we.mycards.add(
-                            new Card(Rank.getRank(card.get("rank").asText()),
-                                    card.get("suit").asText()));
+                    allCards.addMyCard(
+                            new Card(
+                                    Rank.getRank(card.get("rank").asText()),
+                                    Suit.getSuit(card.get("suit").asText())));
                 });
-                System.out.println("found us: " + we);
             }
         });
 
-        return 1000;
+
+
+        request.get("community_cards").forEach(card -> {
+            allCards.addCommunityCard(
+                    new Card(
+                            Rank.getRank(card.get("rank").asText()),
+                            Suit.getSuit(card.get("suit").asText()))
+            );
+        });
+
+        if (allCards.hasEqualCardsWithMinWeightAndMinNumber(1, 4)) {
+            return 1000;
+        }
+        else if (allCards.hasEqualCardsWithMinWeightAndMinNumber(1, 3)) {
+            return 500;
+        }
+        if (allCards.hasEqualCardsWithMinWeightAndMinNumber(10, 2)) {
+            return 100;
+        } else {
+            return 0;
+        }
     }
 
     public static void showdown(JsonNode game) {
