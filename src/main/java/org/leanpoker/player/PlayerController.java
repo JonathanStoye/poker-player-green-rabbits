@@ -24,8 +24,10 @@ public class PlayerController {
     @Post(produces = MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public String doPost(@Body Map<String, String> body) throws JsonProcessingException {
+
         String action = body.get("action");
         String gameState = body.get("game_state");
+
         if ("bet_request".equals(action)) {
             return String.valueOf(Player.betRequest(mapper.readTree(gameState)));
         }
@@ -35,6 +37,7 @@ public class PlayerController {
         if ("version".equals(action)) {
             return Player.VERSION;
         }
+
         return "";
     }
 
