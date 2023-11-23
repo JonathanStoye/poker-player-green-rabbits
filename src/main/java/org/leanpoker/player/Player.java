@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public class Player {
     private final int bet;
-    static final String VERSION = "v9 - play even with bad cards";
+    static final String VERSION = "v10 - fold if not good cards";
 
     public Player(int bet) {
         this.bet = bet;
@@ -48,19 +48,25 @@ public class Player {
         });
 
         int mimimumRaise = request.get("minimum_raise").asInt();
-        int current_buy_in = request.get("current_buy_in").asInt();
+        int currentBuyIn = request.get("current_buy_in").asInt();
 
         if (allCards.hasEqualCardsWithMinWeightAndMinNumber(1, 4)) {
             return 1000;
         }
-        else if (allCards.hasEqualCardsWithMinWeightAndMinNumber(1, 3)) {
+
+        if (allCards.hasEqualCardsWithMinWeightAndMinNumber(1, 3)) {
             return 500;
         }
+
         if (allCards.hasEqualCardsWithMinWeightAndMinNumber(10, 2)) {
             return 100;
-        } else {
-            return current_buy_in - we.bet;
         }
+
+        if (currentBuyIn < 10){
+            return currentBuyIn - we.bet; // calling
+        }
+
+        return 0;
     }
 
     public static void showdown(JsonNode game) {
