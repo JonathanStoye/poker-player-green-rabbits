@@ -49,6 +49,16 @@ class AllCardsTest {
         assertEquals(true, allCards.hasEqualCardsWithMinWeightAndMinNumber(10, 2));
 
     }
+    @Test
+    void b1() {
+        AllCards allCards = new AllCards();
+        allCards.addMyCard(new Card(N_2, CLUBS));
+        allCards.addMyCard(new Card(N_3, DIAMONDS));
+
+        assertEquals(false, allCards.hasEqualCardsWithMinWeightAndMinNumber(1, 4));
+
+
+    }
 
     @Test
     void shouldBeFold() {

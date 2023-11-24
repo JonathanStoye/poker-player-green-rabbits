@@ -30,6 +30,9 @@ public class AllCards {
                 '}';
     }
 
+    private boolean hasCardRank(Rank rank) {
+        return allCards.stream().anyMatch(card -> card.getRank().equals(rank));
+    }
 
     // make a methode from all cards to check there is minimum the given number of cards with same rank and min the given weight
     public boolean hasEqualCardsWithMinWeightAndMinNumber(int weight, int number) {

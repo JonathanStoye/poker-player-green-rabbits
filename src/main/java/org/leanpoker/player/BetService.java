@@ -6,7 +6,7 @@ import org.leanpoker.player.raw.GameStateRaw;
 
 public class BetService {
     private final int bet;
-    static final String VERSION = "v18 - own";
+    static final String VERSION = "v19 - own";
 
     public BetService(int bet) {
         this.bet = bet;
@@ -77,7 +77,7 @@ public class BetService {
             return currentBuyIn - we.bet + mimimumRaise;
         }
 
-        if (currentBuyIn < 10 || allCards.isWithoutCommunityCards()) {
+        if (currentBuyIn < 10) {
             return currentBuyIn - we.bet; // calling
         }
 
