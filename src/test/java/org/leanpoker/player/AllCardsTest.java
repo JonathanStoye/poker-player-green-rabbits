@@ -9,7 +9,7 @@ import static org.leanpoker.player.Suit.*;
 class AllCardsTest {
 
     @Test
-    void should() {
+    void should2() {
         AllCards allCards = new AllCards();
 
         allCards.addMyCard(new Card(N_10, HEARTS));
@@ -18,7 +18,25 @@ class AllCardsTest {
         allCards.addCommunityCard(new Card(N_10, HEARTS));
 
         assertEquals(true, allCards.hasEqualCardsWithMinWeightAndMinNumber(9, 2));
+    }
+    void should3() {
+        AllCards allCards = new AllCards();
+
+        allCards.addMyCard(new Card(N_10, HEARTS));
+        allCards.addMyCard(new Card(N_9, HEARTS));
+        allCards.addCommunityCard(new Card(N_10, DIAMONDS));
+        allCards.addCommunityCard(new Card(N_10, CLUBS));
+
         assertEquals(true, allCards.hasEqualCardsWithMinWeightAndMinNumber(9, 3));
+    }
+    void should4() {
+        AllCards allCards = new AllCards();
+
+        allCards.addMyCard(new Card(N_10, HEARTS));
+        allCards.addMyCard(new Card(N_9, HEARTS));
+        allCards.addCommunityCard(new Card(N_10, DIAMONDS));
+        allCards.addCommunityCard(new Card(N_10, CLUBS));
+
         assertEquals(false, allCards.hasEqualCardsWithMinWeightAndMinNumber(9, 4));
     }
 

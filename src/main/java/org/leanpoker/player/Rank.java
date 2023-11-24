@@ -39,4 +39,6 @@ public enum Rank {
     public int getWeight() {
         return weight;
     }
+
+
 }

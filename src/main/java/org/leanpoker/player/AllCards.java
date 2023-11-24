@@ -30,26 +30,6 @@ public class AllCards {
                 '}';
     }
 
-    public boolean hasPairInAllCards() {
-        for (int i = 0; i < allCards.size(); i++) {
-            for (int j = i + 1; j < allCards.size(); j++) {
-                if (allCards.get(i).getRank() == allCards.get(j).getRank()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    public boolean hasPairInAllCardsWithMinWeight(int weight) {
-        for (int i = 0; i < allCards.size(); i++) {
-            for (int j = i + 1; j < allCards.size(); j++) {
-                if (allCards.get(i).getRank() == allCards.get(j).getRank() && allCards.get(i).getRank().getWeight() >= weight) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
     // make a methode from all cards to check there is minimum the given number of cards with same rank and min the given weight
     public boolean hasEqualCardsWithMinWeightAndMinNumber(int weight, int number) {
@@ -65,8 +45,16 @@ public class AllCards {
             }
         }
 
-        return rankMap.values().stream().anyMatch(value -> value >= number);
+
+
+        return rankMap.entrySet().stream()
+                .anyMatch(entry -> entry.getValue() >= number
+                        &&
+                        // mycars enthält eine karte mit dem gleichen rank
+                        mycards.stream().anyMatch(card -> card.getRank().equals(entry.getKey()))
+                );
     }
+
 
     public boolean isFold() {
         return communityCards.size() == 3;
