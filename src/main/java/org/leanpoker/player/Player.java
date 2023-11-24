@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public class Player {
     private final int bet;
-    static final String VERSION = "v11";
+    static final String VERSION = "v12 - b rank 4";
 
     public Player(int bet) {
         this.bet = bet;
