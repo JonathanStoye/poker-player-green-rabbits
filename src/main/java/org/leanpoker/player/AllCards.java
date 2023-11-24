@@ -53,9 +53,9 @@ public class AllCards {
 
     // make a methode from all cards to check there is minimum the given number of cards with same rank and min the given weight
     public boolean hasEqualCardsWithMinWeightAndMinNumber(int weight, int number) {
-       Map<Rank, Integer> rankMap = new HashMap<>();
+        Map<Rank, Integer> rankMap = new HashMap<>();
 
-       for (Card card : allCards) {
+        for (Card card : allCards) {
             if (card.getRank().getWeight() >= weight) {
                 if (rankMap.containsKey(card.getRank())) {
                     rankMap.put(card.getRank(), rankMap.get(card.getRank()) + 1);
@@ -65,14 +65,7 @@ public class AllCards {
             }
         }
 
-        // Überprüfe, ob es mindestens eine Karte in mycards mit dem erforderlichen Gewicht und der erforderlichen Anzahl gibt
-        for (Card card : mycards) {
-            if (card.getRank().getWeight() >= weight && rankMap.getOrDefault(card.getRank(), 0) >= number && mycards.contains(card)) {
-                return true;
-            }
-        }
-
-        return false;
+        return rankMap.values().stream().anyMatch(value -> value >= number);
     }
 
     public boolean isFold() {

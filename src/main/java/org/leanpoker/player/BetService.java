@@ -6,7 +6,7 @@ import org.leanpoker.player.raw.GameStateRaw;
 
 public class BetService {
     private final int bet;
-    static final String VERSION = "v16 - without cc";
+    static final String VERSION = "v17 - revert";
 
     public BetService(int bet) {
         this.bet = bet;
