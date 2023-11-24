@@ -1,18 +1,33 @@
 package org.leanpoker.player;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.leanpoker.player.raw.GameStateRaw;
 
-public class Player {
+public class BetService {
     private final int bet;
-    static final String VERSION = "v12 - b rank 4";
+    static final String VERSION = "v14 - parse data";
 
-    public Player(int bet) {
+    public BetService(int bet) {
         this.bet = bet;
     }
 
 
     public static int betRequest(JsonNode request) {
-        Player we = null;
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            GameStateRaw gameStateRaw = objectMapper.treeToValue(request, GameStateRaw.class);
+            System.out.println("gameStateRaw erfolgreich gelesen.");
+            System.out.println(gameStateRaw.toString());
+
+        } catch (Throwable t) {
+            System.out.println("Error: " + t.getMessage());
+        }
+
+
+
+        BetService we = null;
         AllCards allCards = new AllCards();
 
         System.out.println("request");
@@ -28,7 +43,7 @@ public class Player {
         // iterate the players and find our player
         for (JsonNode player : players) {
             if ("Green Rabbits".equals(player.get("name").asText())) {
-                we = new Player(player.get("bet").asInt());
+                we = new BetService(player.get("bet").asInt());
 
                 player.get("hole_cards").forEach(card -> {
                     allCards.addMyCard(
