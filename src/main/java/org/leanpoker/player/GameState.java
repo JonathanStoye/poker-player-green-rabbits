@@ -1,6 +1,7 @@
 package org.leanpoker.player;
 
 import org.leanpoker.player.raw.GameStateRaw;
+import org.leanpoker.player.raw.PlayerRaw;
 
 public class GameState {
 
@@ -14,5 +15,9 @@ public class GameState {
     public GameState(GameStateRaw gameStateRaw) {
         this.gameStateRaw = gameStateRaw;
         this.ownPlayer = new Player(gameStateRaw.getPlayers().stream().filter(playerRaw -> ownName.equals(playerRaw.getName())).findFirst().get());
+    }
+
+    public PlayerRaw getUs() {
+        return gameStateRaw.getPlayers().stream().filter(playerRaw -> ownName.equals(playerRaw.getName())).findFirst().get();
     }
 }

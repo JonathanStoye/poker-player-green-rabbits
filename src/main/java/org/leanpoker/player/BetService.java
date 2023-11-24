@@ -9,7 +9,7 @@ import static org.leanpoker.player.Rank.N_10;
 
 public class BetService {
     private final int bet;
-    static final String VERSION = "v20 - parse";
+    static final String VERSION = "v21 - strat";
 
     public BetService(int bet) {
         this.bet = bet;
@@ -18,6 +18,7 @@ public class BetService {
 
     public static int betRequest(JsonNode request) {
         GameStateRaw gameStateRaw = getGameStateRaw(request);
+        GameState gameState = new GameState(gameStateRaw);
 
         BetService we = null;
         AllCards allCards = new AllCards();
@@ -31,6 +32,14 @@ public class BetService {
         });
 
         JsonNode players = request.get("players");
+
+        gameState.getUs().getHoleCards().forEach(card -> {
+            allCards.addMyCard(
+                    new Card(
+                            Rank.getRank(card.getRank()),
+                            Suit.getSuit(card.getSuit())));
+        });
+
 
         // iterate the players and find our player
         for (JsonNode player : players) {
@@ -54,23 +63,28 @@ public class BetService {
 
 
         if (allCards.hasEqualCardsWithMinWeightAndMinNumber(1, 4)) {
+            System.out.println("allCards.hasEqualCardsWithMinWeightAndMinNumber(1, 4)");
             return 1000 + gameStateRaw.getCurrentBuyIn();
         }
 
         if (allCards.hasEqualCardsWithMinWeightAndMinNumber(1, 3)) {
+            System.out.println("allCards.hasEqualCardsWithMinWeightAndMinNumber(1, 3)");
             return 500 + gameStateRaw.getCurrentBuyIn();
         }
 
 
         if (allCards.hasEqualCardsWithMinWeightAndMinNumber(10, 2) ) {
+            System.out.println("allCards.hasEqualCardsWithMinWeightAndMinNumber(10, 2)");
             return gameStateRaw.getCurrentBuyIn() - we.bet + gameStateRaw.getMinimumRaise() + gameStateRaw.getMinimumRaise();
         }
 
         if (allCards.isWithoutCommunityCards() && allCards.hasMinRank(N_10)) {
+            System.out.println("allCards.isWithoutCommunityCards() && allCards.hasMinRank(N_10)");
             return gameStateRaw.getCurrentBuyIn() - we.bet + gameStateRaw.getMinimumRaise();
         }
 
         if (gameStateRaw.getCurrentBuyIn() < 10 ) {
+            System.out.println("gameStateRaw.getCurrentBuyIn() < 10");
             return gameStateRaw.getCurrentBuyIn() - we.bet; // calling
         }
 

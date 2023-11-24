@@ -188,5 +188,9 @@ public class GameStateRaw {
                 ", betIndex=" + betIndex +
                 '}';
     }
+
+    public void getUs() {
+
+    }
 }
 
