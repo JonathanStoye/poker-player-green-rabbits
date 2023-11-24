@@ -65,7 +65,14 @@ public class AllCards {
             }
         }
 
-        return rankMap.values().stream().anyMatch(value -> value >= number);
+        // Überprüfe, ob es mindestens eine Karte in mycards mit dem erforderlichen Gewicht und der erforderlichen Anzahl gibt
+        for (Card card : mycards) {
+            if (card.getRank().getWeight() >= weight && rankMap.getOrDefault(card.getRank(), 0) >= number && mycards.contains(card)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public boolean isFold() {

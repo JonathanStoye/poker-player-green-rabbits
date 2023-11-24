@@ -6,7 +6,7 @@ import org.leanpoker.player.raw.GameStateRaw;
 
 public class BetService {
     private final int bet;
-    static final String VERSION = "v14 - parse data";
+    static final String VERSION = "v15 - own hand contains";
 
     public BetService(int bet) {
         this.bet = bet;
