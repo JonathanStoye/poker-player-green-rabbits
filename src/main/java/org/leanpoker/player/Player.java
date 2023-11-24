@@ -51,18 +51,18 @@ public class Player {
         int currentBuyIn = request.get("current_buy_in").asInt();
 
         if (allCards.hasEqualCardsWithMinWeightAndMinNumber(1, 4)) {
-            return 1000;
+            return 1000 + currentBuyIn;
         }
 
         if (allCards.hasEqualCardsWithMinWeightAndMinNumber(1, 3)) {
-            return 500;
+            return 500 + currentBuyIn;
         }
 
         if (allCards.hasEqualCardsWithMinWeightAndMinNumber(10, 2)) {
             return currentBuyIn - we.bet + mimimumRaise;
         }
 
-        if (currentBuyIn < 10){
+        if (currentBuyIn < 10) {
             return currentBuyIn - we.bet; // calling
         }
 
