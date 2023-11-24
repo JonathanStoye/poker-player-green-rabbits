@@ -30,8 +30,20 @@ public class AllCards {
                 '}';
     }
 
+    public boolean hasMinRank(Rank rank) {
+        return allCards.stream().anyMatch(card -> card.getRank().equals(rank));
+    }
+
     private boolean hasCardRank(Rank rank) {
         return allCards.stream().anyMatch(card -> card.getRank().equals(rank));
+    }
+
+    private boolean hasRoyal() {
+        return hasCardRank(Rank.ACE) && hasCardRank(Rank.KING) && hasCardRank(Rank.QUEEN) && hasCardRank(Rank.JACK) && hasCardRank(Rank.N_10);
+    }
+
+    private boolean allCardsHasFlushWith5Cards() {
+        return Suit.getSuits().stream().anyMatch(suit -> allCards.stream().filter(card -> card.getSuit().equals(suit)).count() >= 5);
     }
 
     // make a methode from all cards to check there is minimum the given number of cards with same rank and min the given weight

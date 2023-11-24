@@ -1,5 +1,9 @@
 package org.leanpoker.player;
 
+import io.micronaut.context.BeanProvider;
+
+import java.util.List;
+
 public enum Suit {
 
     CLUBS("clubs"),
@@ -22,5 +26,9 @@ public enum Suit {
         }
         System.out.println("Suit not found: " + suit);
         return CLUBS;
+    }
+
+    public static List<Suit> getSuits() {
+        return List.of(CLUBS, HEARTS, DIAMONDS, SPADES);
     }
 }
